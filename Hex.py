@@ -19,14 +19,21 @@ hexarray = [
 ]
 
 #points were a path can enter / leave
+r2 = r*math.sqrt(3)/2
 patharray = [
-    (0.5*r+width/2-, 0),
-    ()
+    (width/2, 0),
+    (width/2+r2*math.sqrt(3)/2,height/2-0.5*r2),
+    (width/2+r2*math.sqrt(3)/2,height/2+0.5*r2),
+    (width/2, height),
+    (width/2-r2*math.sqrt(3)/2,height/2+0.5*r2),
+    (width/2-r2*math.sqrt(3)/2,height/2-0.5*r2)
 ]
 #points were rivers, mountains and forests can form.
 geoarray = []
 
 draw.polygon(hexarray, fill='green', outline='black')
+draw.polygon(patharray, fill='yellow', outline='orange')
+
 #draw.line((0, 0) + img.size, fill=(125,0,0,255))
 
 
