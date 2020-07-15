@@ -55,11 +55,15 @@ geoarray = [
 
 #pick random path
 pathpoints = [patharray[0],patharray[random.randrange(1,5,1)]]
+#pick random geo area
 geostart=[0,3,6,9,12]
 gs = random.choice(geostart)
 geopoints = geoarray[gs:gs+random.randrange(6,18,6)]
+#pick geotype
+geocolor = ['red', 'blue','darkgreen']
+geocolorselected = random.choice(geocolor)
 draw.polygon(hexarray, fill='green', outline='black')
-draw.polygon(geopoints, fill='blue', outline='blue')
+draw.polygon(geopoints, fill=geocolorselected, outline=geocolorselected)
 draw.line(pathpoints, fill='orange', width=10)
 
 #draw.line((0, 0) + img.size, fill=(125,0,0,255))
