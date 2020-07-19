@@ -80,12 +80,21 @@ def main():
 
 def wiggle(poly):
     #wiggle modifier
-    wpoly = [(statistics.mean([poly[0][0], poly[-1][0]]), statistics.mean([poly[0][1], poly[-1][1]]))]
+    hyp = math.pow(math.pow(poly[0][0] - poly[-1][0],2) + math.pow(poly[0][1] - poly[-1][1],2),0.5)
+    ang = math.atan((poly[0][0] - poly[-1][0])/max((poly[0][1] - poly[-1][1]),0.00001))+math.pi/2
+    r = min(hyp,360/10)
+    r1 = random.uniform(-r,+r)
+    wpoly = [(statistics.mean([poly[0][0], poly[-1][0]])+r1*math.sin(ang), statistics.mean([poly[0][1], poly[-1][1]])+r1*math.cos(ang))]
+    print(poly[0], poly[1], wpoly)
     for n in range(100):
         hyp = math.pow(math.pow(poly[0][0] - wpoly[-1][0],2) + math.pow(poly[0][1] - wpoly[-1][1],2),0.5)
+        ang = math.atan((poly[0][0] - wpoly[-1][0])/max((poly[0][1] - wpoly[-1][1]),0.00001))+math.pi/2
         r = min(hyp/2,360/10)
-        wpoly.append((statistics.mean([poly[0][0], wpoly[-1][0]])+random.uniform(-r,+r), statistics.mean([poly[0][1], wpoly[-1][1]])+random.uniform(-r,+r)))
-        wpoly.insert(0,(statistics.mean([poly[-1][0], wpoly[0][0]])+random.uniform(-r,+r), statistics.mean([poly[-1][1], wpoly[0][1]])+random.uniform(-r,+r)))
+        r1 = random.uniform(-r,+r)
+        r2 = random.uniform(-r,+r)
+        #print(hyp, ang, r1, r2)
+        wpoly.append((statistics.mean([poly[0][0], wpoly[-1][0]])+r1*math.sin(ang), statistics.mean([poly[0][1], wpoly[-1][1]])+r1*math.cos(ang)))
+        wpoly.insert(0,(statistics.mean([poly[-1][0], wpoly[0][0]])+r2*math.sin(ang), statistics.mean([poly[-1][1], wpoly[0][1]])+r2*math.cos(ang)))
     poly.extend(wpoly)
     return poly
 
