@@ -69,7 +69,7 @@ def main():
     geocolor = ['red', 'blue','darkgreen']
     geocolorselected = random.choice(geocolor)
     draw.polygon(hexarray, fill='green', outline='black')
-    draw.polygon(geopoints, fill=geocolorselected, outline=geocolorselected)
+    draw.polygon(geopoints, fill ='blue', outline="black")
     draw.line(pathpoints, fill='orange', width=10)
 
     #draw.line((0, 0) + img.size, fill=(125,0,0,255))
@@ -80,21 +80,22 @@ def main():
 
 def wiggle(poly):
     #wiggle modifier
-    hyp = math.pow(math.pow(poly[0][0] - poly[-1][0],2) + math.pow(poly[0][1] - poly[-1][1],2),0.5)
-    ang = math.atan((poly[0][0] - poly[-1][0])/max((poly[0][1] - poly[-1][1]),0.00001))+math.pi/2
-    r = min(hyp,360/10)
-    r1 = random.uniform(-r,+r)
-    wpoly = [(statistics.mean([poly[0][0], poly[-1][0]])+r1*math.sin(ang), statistics.mean([poly[0][1], poly[-1][1]])+r1*math.cos(ang))]
-    print(poly[0], poly[1], wpoly)
-    for n in range(100):
-        hyp = math.pow(math.pow(poly[0][0] - wpoly[-1][0],2) + math.pow(poly[0][1] - wpoly[-1][1],2),0.5)
-        ang = math.atan((poly[0][0] - wpoly[-1][0])/max((poly[0][1] - wpoly[-1][1]),0.00001))+math.pi/2
-        r = min(hyp/2,360/10)
-        r1 = random.uniform(-r,+r)
-        r2 = random.uniform(-r,+r)
-        #print(hyp, ang, r1, r2)
-        wpoly.append((statistics.mean([poly[0][0], wpoly[-1][0]])+r1*math.sin(ang), statistics.mean([poly[0][1], wpoly[-1][1]])+r1*math.cos(ang)))
-        wpoly.insert(0,(statistics.mean([poly[-1][0], wpoly[0][0]])+r2*math.sin(ang), statistics.mean([poly[-1][1], wpoly[0][1]])+r2*math.cos(ang)))
+    wpoly = [poly[-1], poly[0]]
+    for x in range(6):
+        print ("x",x)
+        l = len(wpoly)-1
+        temppoly = [wpoly[0]]
+        for n in range(0,l,1):
+            hyp = math.pow(math.pow(wpoly[n][0] - wpoly[n+1][0],2) + math.pow(wpoly[n][1] - wpoly[n+1][1],2),0.5)
+            ang = math.atan2((wpoly[n][0] - wpoly[n+1][0]),(wpoly[n][1] - wpoly[n+1][1]))+math.pi/2
+            r = min(hyp/3,360/10)
+            r = random.uniform(-r,+r)
+            new_point = (statistics.mean([wpoly[n][0], wpoly[n+1][0]])+r*math.sin(ang), statistics.mean([wpoly[n][1], wpoly[n+1][1]])+r*math.cos(ang))
+            #print([wpoly[n], new_point, wpoly[n+1]])
+            #wpoly.insert(n+1,new_point)
+            temppoly.extend([wpoly[n], new_point, wpoly[n+1]])
+        #print (temppoly)
+        wpoly = temppoly
     poly.extend(wpoly)
     return poly
 
