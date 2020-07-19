@@ -63,7 +63,7 @@ def main():
     geopoints = geoarray[gs:gs+random.randrange(6,18,6)]
 
     #wiggle modifier
-    geopoints = wiggle(geopoints)
+    geopoints.extend(wiggle(geopoints[-1],geopoints[0],0.3))
 
     #pick geotype
     geocolor = ['red', 'blue','darkgreen']
@@ -78,25 +78,19 @@ def main():
     #save to file
     img.save('tiles/test-tile.png')
 
-def wiggle(poly):
-    #wiggle modifier
-    wpoly = [poly[-1], poly[0]]
+def wiggle(start, end, wiggle):
+    wpoly = [start, end]
     for x in range(6):
-        print ("x",x)
         l = len(wpoly)-1
         temppoly = [wpoly[0]]
         for n in range(0,l,1):
             hyp = math.pow(math.pow(wpoly[n][0] - wpoly[n+1][0],2) + math.pow(wpoly[n][1] - wpoly[n+1][1],2),0.5)
             ang = math.atan2((wpoly[n][0] - wpoly[n+1][0]),(wpoly[n][1] - wpoly[n+1][1]))+math.pi/2
-            r = min(hyp/3,360/10)
+            r = min(hyp*wiggle,360/10)
             r = random.uniform(-r,+r)
             new_point = (statistics.mean([wpoly[n][0], wpoly[n+1][0]])+r*math.sin(ang), statistics.mean([wpoly[n][1], wpoly[n+1][1]])+r*math.cos(ang))
-            #print([wpoly[n], new_point, wpoly[n+1]])
-            #wpoly.insert(n+1,new_point)
             temppoly.extend([wpoly[n], new_point, wpoly[n+1]])
-        #print (temppoly)
         wpoly = temppoly
-    poly.extend(wpoly)
-    return poly
+    return wpoly[1:-1]
 
 main()
