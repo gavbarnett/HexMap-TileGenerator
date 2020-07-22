@@ -36,6 +36,19 @@ function main(){
     ctx.stroke()
     ctx.fill()
 
+    landarray = land(r,6,11,0.3)
+    ctx.beginPath();
+    ctx.moveTo(landarray[0][0],landarray[0][1])
+    for (i=0; i< landarray.length;i++){
+        ctx.lineTo(landarray[i][0],landarray[i][1]);
+    }
+    ctx.lineWidth = 1
+    ctx.closePath()
+    ctx.strokeStyle = 'black'
+    ctx.fillStyle = 'green'
+    ctx.stroke()
+    ctx.fill()
+
     //ctx.fillRect(50, 50, 100, 100)
     fs.writeFileSync('tiles/node-tile.jpg', canvas.toBuffer())
 }
@@ -81,10 +94,10 @@ function wiggle(start, end, w_factor){
         for (n=0; n<l; n += 1){
             hyp = Math.pow(Math.pow(wpoly[n][0] - wpoly[n+1][0],2) + Math.pow(wpoly[n][1] - wpoly[n+1][1],2),0.5)
             ang = Math.atan2((wpoly[n][0] - wpoly[n+1][0]),(wpoly[n][1] - wpoly[n+1][1]))+Math.PI/2
-            r = Math.min(hyp*w_factor,360/10)
-            r = Math.random() * (r - (-r)) + (-r)
-            x = mean([wpoly[n][0], wpoly[n+1][0]])+r*Math.sin(ang)
-            y = mean([wpoly[n][1], wpoly[n+1][1]])+r*Math.cos(ang)
+            rnd = Math.min(hyp*w_factor,360/10)
+            rnd = Math.random() * (rnd - (-rnd)) + (-rnd)
+            x = mean([wpoly[n][0], wpoly[n+1][0]])+rnd*Math.sin(ang)
+            y = mean([wpoly[n][1], wpoly[n+1][1]])+rnd*Math.cos(ang)
             new_point = [x,y]
             temppoly.push(wpoly[n], new_point)
         }
